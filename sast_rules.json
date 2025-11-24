@@ -1,0 +1,64 @@
+{
+  "rules": {
+    "INSECURE_PDF_GENERATION": {
+      "pattern": "markdownpdf\\s*\\(\\s*\\{.*?html\\s*:\\s*true",
+      "severity": "critical",
+      "description": "markdown-pdf configured with html=true, vulnerable to RCE via HTML injection",
+      "tags": ["rce", "input-validation"]
+    },
+    "UNSAFE_USER_INPUT_TO_EXEC": {
+      "pattern": "(generatePDF|spawn|exec|child_process)\\s*\\(\\s*(?:req\\.|user|content|input)",
+      "severity": "critical",
+      "description": "Unsanitized user input passed to code execution function",
+      "tags": ["rce", "input-validation", "command-injection"]
+    },
+    "DIRECT_HTML_RENDERING": {
+      "pattern": "res\\.send\\s*\\(\\s*(?:document\\.|user\\.\\|\\w+\\.content)",
+      "severity": "high",
+      "description": "Rendering user-controlled content directly as HTML without proper escaping",
+      "tags": ["xss", "input-validation"]
+    },
+    "WEAK_AUTH_CONTROL": {
+      "pattern": "(verifyPass|access_pass|debug).*?isAuthenticated.*?isAdmin",
+      "severity": "high",
+      "description": "Weak authentication mechanism with debug endpoints",
+      "tags": ["authentication", "weak-crypto"]
+    },
+    "HARDCODED_SECRETS": {
+      "pattern": "(SECRET|API_KEY|PASSWORD)\\s*=\\s*['\"]\\w[\\w\\-]{20,}['\"]",
+      "severity": "high",
+      "description": "Potential hardcoded secrets or sensitive data",
+      "tags": ["secrets", "credential-exposure"]
+    },
+    "UNSAFE_EVAL": {
+      "pattern": "(eval|Function|vm\\.runInThisContext)\\s*\\(",
+      "severity": "critical",
+      "description": "Use of eval or dynamic code execution",
+      "tags": ["rce", "code-injection"]
+    },
+    "PATH_TRAVERSAL": {
+      "pattern": "fs\\.(readFile|writeFile|unlink)\\s*\\(\\s*(?:req\\.|user|String\\()",
+      "severity": "high",
+      "description": "File system operations with unsanitized user input - path traversal risk",
+      "tags": ["path-traversal", "input-validation"]
+    },
+    "SQL_INJECTION": {
+      "pattern": "(query|execute|prepare)\\s*\\(\\s*['\\\"]\\s*\\+|query.*req\\.(body|params|query)",
+      "severity": "critical",
+      "description": "Potential SQL injection vulnerability - dynamic query construction",
+      "tags": ["sql-injection", "input-validation"]
+    },
+    "XXE_VULNERABILITY": {
+      "pattern": "(parseString|parse|DOMParser)\\s*\\(.*?external|DOCTYPE",
+      "severity": "high",
+      "description": "XML External Entity (XXE) injection vulnerability",
+      "tags": ["xxe", "xml"]
+    },
+    "INSECURE_RANDOMNESS": {
+      "pattern": "(Math\\.random|Math\\.floor|Math\\.ceil).*?(token|secret|key|password)",
+      "severity": "high",
+      "description": "Use of weak random number generator for cryptographic purposes",
+      "tags": ["weak-crypto", "randomness"]
+    }
+  }
+}

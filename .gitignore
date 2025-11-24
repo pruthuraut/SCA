@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.DS_Store
+node_modules/
+.next/
+out/
+build/
+dist/
+*.log
+.vscode/
+.idea/
+sca_report.json
+remediation_plan.json

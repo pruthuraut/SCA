@@ -1,0 +1,5 @@
+flask
+flask-cors
+nvdlib
+requests
+gitpython
