@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'upload' | 'github'>('upload');
   const [files, setFiles] = useState<FileList | null>(null);
@@ -27,7 +29,7 @@ export default function Home() {
         for (let i = 0; i < files.length; i++) {
           formData.append('files', files[i]);
         }
-        response = await fetch('http://localhost:5000/api/scan/upload', {
+        response = await fetch(`${API_URL}/api/scan/upload`, {
           method: 'POST',
           body: formData,
         });
@@ -37,7 +39,7 @@ export default function Home() {
           setLoading(false);
           return;
         }
-        response = await fetch('http://localhost:5000/api/scan/github', {
+        response = await fetch(`${API_URL}/api/scan/github`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: repoUrl }),
@@ -76,8 +78,8 @@ export default function Home() {
             <button
               onClick={() => setActiveTab('upload')}
               className={`pb-2 px-4 text-lg font-medium transition-colors ${activeTab === 'upload'
-                  ? 'text-blue-400 border-b-2 border-blue-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                ? 'text-blue-400 border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-gray-200'
                 }`}
             >
               Upload Config Files
@@ -85,8 +87,8 @@ export default function Home() {
             <button
               onClick={() => setActiveTab('github')}
               className={`pb-2 px-4 text-lg font-medium transition-colors ${activeTab === 'github'
-                  ? 'text-blue-400 border-b-2 border-blue-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                ? 'text-blue-400 border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-gray-200'
                 }`}
             >
               GitHub Repository
@@ -131,8 +133,8 @@ export default function Home() {
               onClick={handleScan}
               disabled={loading}
               className={`mt-6 px-8 py-3 rounded-lg font-bold text-white transition-all transform hover:scale-105 ${loading
-                  ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg'
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg'
                 }`}
             >
               {loading ? 'Scanning...' : 'Start Scan'}
@@ -155,12 +157,12 @@ export default function Home() {
                 <div
                   key={severity}
                   className={`p-4 rounded-lg border ${severity === 'critical'
-                      ? 'bg-red-900/20 border-red-800 text-red-400'
-                      : severity === 'high'
-                        ? 'bg-orange-900/20 border-orange-800 text-orange-400'
-                        : severity === 'medium'
-                          ? 'bg-yellow-900/20 border-yellow-800 text-yellow-400'
-                          : 'bg-green-900/20 border-green-800 text-green-400'
+                    ? 'bg-red-900/20 border-red-800 text-red-400'
+                    : severity === 'high'
+                      ? 'bg-orange-900/20 border-orange-800 text-orange-400'
+                      : severity === 'medium'
+                        ? 'bg-yellow-900/20 border-yellow-800 text-yellow-400'
+                        : 'bg-green-900/20 border-green-800 text-green-400'
                     }`}
                 >
                   <div className="text-sm uppercase font-bold tracking-wider opacity-80">
@@ -196,10 +198,10 @@ export default function Home() {
                         <td className="p-4">
                           <span
                             className={`px-2 py-1 rounded text-xs font-bold ${dep.risk_score >= 8
-                                ? 'bg-red-900 text-red-200'
-                                : dep.risk_score >= 5
-                                  ? 'bg-orange-900 text-orange-200'
-                                  : 'bg-green-900 text-green-200'
+                              ? 'bg-red-900 text-red-200'
+                              : dep.risk_score >= 5
+                                ? 'bg-orange-900 text-orange-200'
+                                : 'bg-green-900 text-green-200'
                               }`}
                           >
                             {dep.risk_score}
@@ -212,10 +214,10 @@ export default function Home() {
                                 <div key={vIdx} className="text-sm">
                                   <span
                                     className={`font-bold ${v.severity === 'critical'
-                                        ? 'text-red-500'
-                                        : v.severity === 'high'
-                                          ? 'text-orange-500'
-                                          : 'text-yellow-500'
+                                      ? 'text-red-500'
+                                      : v.severity === 'high'
+                                        ? 'text-orange-500'
+                                        : 'text-yellow-500'
                                       }`}
                                   >
                                     [{v.severity.toUpperCase()}]
@@ -260,10 +262,10 @@ export default function Home() {
                           <td className="p-4">
                             <span
                               className={`px-2 py-1 rounded text-xs font-bold ${vuln.severity === 'critical'
-                                  ? 'bg-red-900 text-red-200'
-                                  : vuln.severity === 'high'
-                                    ? 'bg-orange-900 text-orange-200'
-                                    : 'bg-yellow-900 text-yellow-200'
+                                ? 'bg-red-900 text-red-200'
+                                : vuln.severity === 'high'
+                                  ? 'bg-orange-900 text-orange-200'
+                                  : 'bg-yellow-900 text-yellow-200'
                                 }`}
                             >
                               {vuln.severity.toUpperCase()}
