@@ -107,6 +107,4 @@ This will generate:
 *   The NVD query uses `nvdlib`. Without an API key, rate limits may apply.
 *   The GitHub scanner clones repositories to a temporary directory which is deleted after scanning.
 
-## 📄 License
 
-[MIT License](LICENSE)
